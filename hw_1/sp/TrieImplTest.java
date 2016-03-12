@@ -32,6 +32,12 @@ public class TrieImplTest {
 
         assertEquals(4, trie.size());
         assertTrue(trie.contains(""));
+        
+        trie = new TrieImpl();
+        trie.add("abcd");
+        trie.add("abcd");
+        trie.add("abcd");
+        assertEquals(1, trie.size());
     }
 
     @org.junit.Test

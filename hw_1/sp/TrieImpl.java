@@ -4,9 +4,12 @@ import java.util.AbstractMap;
 import java.util.HashMap;
 
 public class TrieImpl implements Trie {
+    private boolean endOfWord;
+    private int size;
+    private final AbstractMap<Character, TrieImpl> children;
 
     public TrieImpl() {
-        childs = new HashMap<Character, TrieImpl>();
+        children = new HashMap<Character, TrieImpl>();
         endOfWord = false;
     }
 
@@ -36,29 +39,32 @@ public class TrieImpl implements Trie {
                 return false;
             } else {
                 endOfWord = true;
+                size += 1;
+                return true;
             }
+        } 
+        char head = element.charAt(i);
+        TrieImpl child;
+        if (children.containsKey(head)) {
+            child = children.get(head);
         } else {
-            Character head = element.charAt(i);
-            TrieImpl child;
-            if (childs.containsKey(head)) {
-                child = childs.get(head);
-            } else {
-                child = new TrieImpl();
-                childs.put(head, child);
-            }
-            child.add(element, i + 1);
+            child = new TrieImpl();
+            children.put(head, child);
         }
-        size += 1;
-        return true;
+        if (child.add(element, i + 1)) {
+            size += 1;
+            return true;
+        }
+        return false;
     }
 
     private boolean contains(String element, int i) {
         if (element.length() == i) {
             return endOfWord;
         } 
-        Character head = element.charAt(i);
-        if (childs.containsKey(head)) {
-            return childs.get(head).contains(element, i + 1);
+        char head = element.charAt(i);
+        if (children.containsKey(head)) {
+            return children.get(head).contains(element, i + 1);
         }
         return false;
     }
@@ -72,9 +78,9 @@ public class TrieImpl implements Trie {
             }
             return false;
         }
-        Character head = element.charAt(i);
-        if (childs.containsKey(head)) {
-            TrieImpl child = childs.get(head);
+        char head = element.charAt(i);
+        if (children.containsKey(head)) {
+            TrieImpl child = children.get(head);
             boolean removed = child.remove(element, i + 1);
             if (!removed) {
                 return false;
@@ -89,16 +95,13 @@ public class TrieImpl implements Trie {
         if (prefix.length() == i) {
             return size;
         }
-        Character head = prefix.charAt(i);
-        if (childs.containsKey(head)) {
-            TrieImpl child = childs.get(head);
+        char head = prefix.charAt(i);
+        if (children.containsKey(head)) {
+            TrieImpl child = children.get(head);
             return child.howManyStartsWithPrefix(prefix, i + 1);
         }
         return 0;
     }
 
 
-    private boolean endOfWord;
-    private int size;
-    private AbstractMap<Character, TrieImpl> childs;
 }
