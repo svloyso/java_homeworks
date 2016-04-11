@@ -1,0 +1,10 @@
+J2ME programmers count bytes the way a super-model counts calories. – Unknown
+Java: write once, run away! -Brucee
+If Java had true garbage collection, most programs would delete themselves upon execution. – Robert Sewell
+Saying that Java is good because it works on all platforms is like saying anal sex is good because it works on all genders. – Unknown
+Java is a DSL to transform big XML documents into long exception stack traces. – Scott Bellware
+The definition of Hell is working with dates in Java, JDBC, and Oracle. Every single one of them screw it up. – Dick Wall CommunityOne 2007: Lunch with the Java Posse
+There are two ways of constructing a software design: One way is to make it so simple that there are obviously no deficiencies, and the other way is to make it so complicated that there are no obvious deficiencies. The first method is far more difficult. – C.A.R. Hoare (British computer scientist, winner of the 1980 Turing Award)
+If debugging is the process of removing software bugs, then programming must be the process of putting them in. – Edsger Dijkstra (Dutch computer scientist, winner of the 1972 Turing Award)
+Measuring programming progress by lines of code is like measuring aircraft building progress by weight. – Bill Gates
+Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it. – Brian W. Kernighan
