@@ -31,17 +31,19 @@ public class CollectionsTest {
         assertEquals(Arrays.asList(2, 4, 6, 8, 10), res);
     }
 
+    
+    class TakeN implements Predicate<Object> {
+        int n;
+        int max;
+        public TakeN(int N) { max = N; n = 0; }
+        @Override
+        public Boolean invoke(Object x) {
+            return n++ < max;
+        }
+     }
+
     @Test
     public void takeTest() {
-        Predicate<Integer> takeFive = new Predicate<Integer>() {
-            int n = 0;
-            int max = 5;
-            @Override
-            public Boolean invoke(Integer x) {
-                return n++ < max;
-            }
-        };
-
         Iterable<Integer> ones = new Iterable<Integer>() {
             @Override
             public Iterator<Integer> iterator() {
@@ -56,13 +58,17 @@ public class CollectionsTest {
             }
         };
 
-        assertEquals(Arrays.asList(1, 1, 1, 1, 1), Collections.takeWhile(takeFive, ones));
+        assertEquals(Arrays.asList(1, 1, 1, 1, 1), Collections.takeWhile(new TakeN(5), ones));
+        assertEquals(Arrays.asList(1, 1, 1, 1, 1), Collections.takeUnless(new TakeN(5).not(), ones));
     }
 
     @Test
     public void foldTest() {
         Function2<Integer, Integer, Integer> mult = (a, b) -> a * b;
+        Function2<Object, Object, Integer> nonAssociative = (a, b) -> ((Integer)a + (Integer)b)*(Integer)b;
         assertEquals(120, (int)Collections.foldl(mult, 1, Arrays.asList(2, 3, 4, 5)));
         assertEquals(120, (int)Collections.foldr(mult, 1, Arrays.asList(2, 3, 4, 5)));
+        assertEquals(72, (int)Collections.foldr(nonAssociative, 2, Arrays.asList(1, 2)));
+        assertEquals(10, (int)Collections.foldl(nonAssociative, 2, Arrays.asList(1, 2)));
     }
 }

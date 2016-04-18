@@ -19,10 +19,10 @@ public class PredicateTest {
             }
         };
 
-        Predicate<Integer> moreThanFive = new Predicate<Integer>() {
+        Predicate<Object> moreThanFive = new Predicate<Object>() {
             @Override
-            public Boolean invoke(Integer arg) {
-                return arg > 5;
+            public Boolean invoke(Object arg) {
+                return (Integer)arg > 5;
             }
         };
         

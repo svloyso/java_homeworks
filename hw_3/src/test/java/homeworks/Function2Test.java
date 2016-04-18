@@ -14,10 +14,10 @@ public class Function2Test {
                 return x + y;
             }
         };
-        Function1<Integer, Integer> multTwo = new Function1<Integer, Integer>() {
+        Function1<Object, Integer> multTwo = new Function1<Object, Integer>() {
             @Override
-            public Integer invoke(Integer x) {
-                return x * 2;
+            public Integer invoke(Object x) {
+                return (Integer)x * 2;
             }
         };
         Function2<Integer, Integer, Integer> plusAndMultTwo = plus.compose(multTwo);

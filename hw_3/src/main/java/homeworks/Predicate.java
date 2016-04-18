@@ -1,6 +1,6 @@
 package homeworks;
 
-interface Predicate<A> extends Function1<A, Boolean> {
+public interface Predicate<A> extends Function1<A, Boolean> {
     
     default Predicate<A> or(Predicate<? super A> p) {
         return new Predicate<A>() {
@@ -29,19 +29,7 @@ interface Predicate<A> extends Function1<A, Boolean> {
         };
     }
 
-    Predicate<Object> ALWAYS_TRUE = 
-        new Predicate<Object>() {
-            @Override
-            public Boolean invoke(Object arg) {
-                return true;
-            }
-        };
+    Predicate<Object> ALWAYS_TRUE = x -> true;
 
-    Predicate<Object> ALWAYS_FALSE = 
-        new Predicate<Object>() {
-            @Override
-            public Boolean invoke(Object arg) {
-                return false;
-            }
-        };
+    Predicate<Object> ALWAYS_FALSE = x -> false;
 }
