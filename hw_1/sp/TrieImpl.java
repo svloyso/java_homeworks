@@ -2,8 +2,14 @@ package sp;
 
 import java.util.AbstractMap;
 import java.util.HashMap;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
-public class TrieImpl implements Trie {
+
+public class TrieImpl implements Trie, StreamSerializable {
     private boolean endOfWord;
     private int size;
     private final AbstractMap<Character, TrieImpl> children;
@@ -31,6 +37,35 @@ public class TrieImpl implements Trie {
 
     public int howManyStartsWithPrefix(String prefix) {
         return howManyStartsWithPrefix(prefix, 0);
+    }
+    
+    public void serialize(OutputStream out) throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream(out);
+        oos.writeObject(endOfWord);
+        oos.writeObject(size);
+        oos.writeObject(children.size());
+        for (AbstractMap.Entry<Character, TrieImpl> child : children.entrySet()){
+            oos.writeObject(child.getKey());
+            child.getValue().serialize(out);
+        }
+    }
+
+    public void deserialize(InputStream in) throws IOException {
+        ObjectInputStream ois = new ObjectInputStream(in);
+        try {
+            endOfWord = (Boolean)ois.readObject();
+            size = (Integer)ois.readObject();
+            int childrenCount = (Integer)ois.readObject();
+            children.clear();
+            for (int i = 0; i < childrenCount; i++) {
+                char c = (Character)ois.readObject();
+                TrieImpl child = new TrieImpl();
+                child.deserialize(in);
+                children.put(c, child);
+            }
+        } catch (ClassNotFoundException e) {
+            throw new IOException("Invalid data format", e);
+        }
     }
 
     private boolean add(String element, int i) {
@@ -103,5 +138,5 @@ public class TrieImpl implements Trie {
         return 0;
     }
 
-
+    
 }
